@@ -1,0 +1,1 @@
+/home/shauntc/.local/share/omf/themes/coffeeandcode/fish_prompt.fish
