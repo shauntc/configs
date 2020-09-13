@@ -14,7 +14,7 @@ call plug#begin("~/.vim/plugged")
 	Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 	Plug 'junegunn/fzf.vim'
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
-	let g:coc_global_extensions = ['coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-tsserver', 'coc-rust-analyzer', 'coc-eslint']
+	let g:coc_global_extensions = ['coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-tsserver', 'coc-rust-analyzer', 'coc-eslint', 'coc-fish']
 	" Typescript
 	Plug 'leafgarland/typescript-vim'
 	Plug 'peitalin/vim-jsx-typescript'
