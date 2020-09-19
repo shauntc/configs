@@ -1,22 +1,55 @@
 $env:CONFIG_ROOT = $PSScriptRoot
-if (-not (Get-Command rustup -errorAction SilentlyContinue)) {
-    (Invoke-WebRequest --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs) | sh
+$env:XDG_CONFIG_ROOT = $env:CONFIG_ROOT
+function asAdmin($file) {
+    $pinfo = New-Object System.Diagnostics.ProcessStartInfo
+    $pinfo.FileName = "powershell"
+    $pinfo.Arguments = "-File $PSScriptRoot\powershell\$file.ps1"
+    $pinfo.Verb = "runas"
+    $pinfo.WorkingDirectory = get-location;
+    $p = New-Object System.Diagnostics.Process
+    $p.StartInfo = $pinfo
+    $p.Start() | Out-Null
+    $p.WaitForExit()
+}
+
+# Set command alias
+function Set-Global-Alias($command, $target) {
+    Set-Alias -Name $command -Value $target -Option AllScope -Scope Global    
+}
+
+# install choco
+if (-not (Get-Command choco -errorAction SilentlyContinue)) {
+    Write-Host "choco is not installed, installing..."
+    asAdmin "choco"
+}
+# Chocolatey profile
+$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+if (Test-Path($ChocolateyProfile)) {
+  Import-Module "$ChocolateyProfile"
 }
 
 if (-not (Get-Command rustup -errorAction SilentlyContinue)) {
+    Write-Host "rustup is not installed, installing from https://sh.rustup.rs..."
     (Invoke-WebRequest --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs) | sh
 }
-$env:EDITOR = nvim
+
+if (-not (Get-Command nvim -errorAction SilentlyContinue)) {
+    Write-Host "nvim is not installed, installing from choco..."
+    asAdmin "nvim"
+    new-item -ItemType SymbolicLink -Value "$env:CONFIG_ROOT\nvim" -Path "~\AppData\Local\nvim"
+    $file = Invoke-WebRequest -useb "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+    New-Item $file $HOME/vimfiles/autoload/plug.vim -Force
+}
+$env:EDITOR = "nvim"
+Set-Global-Alias vim nvim
+Set-Global-Alias vi nvim
+Set-Global-Alias v nvim
 
 function Confirm-Cargo-Install($command, $crateName = $command) {
     if (-not (Get-Command $command -errorAction SilentlyContinue)) {
         Write-Host "Command $command not available, installing $crateName from cargo"
         Invoke-Expression "cargo install $crateName"
     }    
-}
-
-function Set-Global-Alias($command, $target) {
-    Set-Alias -Name $command -Value $target -Option AllScope -Scope Global    
 }
 
 # starship - Command Prompt
@@ -42,7 +75,9 @@ Confirm-Cargo-Install "tokei"
 
 Set-Global-Alias open Invoke-Item
 Set-Global-Alias g git
-Set-Global-Alias gs (git status)
+function Get-Git-Status() { git status }
+Export-ModuleMember -Function Get-Git-Status
+Set-Global-Alias gs Get-Git-Status
 
 # Run when a command is not found
 $ExecutionContext.InvokeCommand.CommandNotFoundAction = {
@@ -66,6 +101,16 @@ $ExecutionContext.InvokeCommand.CommandNotFoundAction = {
 	}
 }
 
+function touch($file) {
+    "" | Out-File $file -Encoding ASCII
+}
+Export-ModuleMember -Function touch
+
+function which($name) {
+    Get-Command $name | Select-Object -ExpandProperty Definition
+}
+Export-ModuleMember -Function which
+
 function sudo {
     $file, [string]$arguments = $args;
     $psi = new-object System.Diagnostics.ProcessStartInfo $file;
@@ -76,12 +121,5 @@ function sudo {
 }
 Export-ModuleMember -Function sudo
 
-function touch($file) {
-    "" | Out-File $file -Encoding ASCII
-}
-Export-ModuleMember -Function touch
-
-function which($name) {
-    Get-Command $name | Select-Object -ExpandProperty Definition
-}
-Export-ModuleMember -Function which
+$vsModule = Import-Module "$env:CONFIG_ROOT\powershell\vs.psm1" -PassThru
+Export-ModuleMember -Function $vsModule
