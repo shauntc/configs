@@ -1,0 +1,151 @@
+prompt_order = [
+    "username",
+    "time",
+    "directory",
+    "git_branch",
+    "git_commit",
+    "git_state",
+    "git_status",
+    "package",
+    # Language Versions
+    # "dotnet",
+    # "elixir",
+    # "elm",
+    # "erlang",
+    # "golang",
+    # "java",
+    # "julia",
+    # "nim",
+    # "nodejs",
+    # "ocaml",
+    # "php",
+    # "purescript",
+    # "python",
+    # "ruby",
+    "rust",
+    "terraform",
+    "zig",
+    "nix_shell",
+    "conda",
+    "memory_usage",
+    "aws",
+    "env_var",
+    "crystal",
+    "cmd_duration",
+    "custom",
+    "jobs",
+    "battery",
+    "line_break",
+    "character",
+]
+
+[time]
+prefix = "["
+suffix = "]"
+style = "dimmed white"
+disabled = false
+
+[directory]
+prefix = ""
+suffix = ""
+style = "white"
+truncation_length = 8
+truncate_to_repo = false
+
+[git_branch]
+prefix = ""
+symbol = " "
+style = "dimmed white"
+
+[git_status]
+style = "dimmed white"
+suffix = " ]"
+
+modified = { value = "  ", style = "red" }
+modified_count = { style = "red", enabled = true }
+untracked = { value = "  ", style = "red" }
+untracked_count = { style = "red", enabled = true }
+deleted = { value = " 﫧 ", style = "red" }
+deleted_count = { style = "red", enabled = true }
+renamed = { value = " ﭯ ", style = "red" }
+renamed_count = { style = "red", enabled = true }
+
+staged = { value = "  ", style = "dimmed red" }
+staged_count = { enabled = true, style = "dimmed red" }
+
+conflicted = { value = " != ", style = "yellow" }
+conflicted_count = { enabled = true, style = "yellow" }
+
+stashed = { value = "  ", style = "dimmed white" }
+stashed_count = { style = "dimmed white", enabled = true }
+
+ahead = { value = "  ", style = "dimmed white" }
+behind = { value = "  ", style = "dimmed white" }
+show_sync_count = true
+diverged = { value = "  ", style = "dimmed red" }
+
+[package]
+symbol = " "
+display_private = true
+
+[username]
+show_always = true
+
+[aws]
+symbol = " "
+
+[battery]
+full_symbol = ""
+charging_symbol = ""
+discharging_symbol = ""
+
+[conda]
+symbol = " "
+
+[docker]
+symbol = " "
+
+[elixir]
+symbol = " "
+
+[elm]
+symbol = " "
+
+[golang]
+symbol = " "
+
+[haskell]
+symbol = " "
+
+[hg_branch]
+symbol = " "
+
+[java]
+symbol = " "
+
+[julia]
+symbol = " "
+
+[memory_usage]
+symbol = " "
+
+[nim]
+symbol = " "
+
+[nix_shell]
+symbol = " "
+
+[nodejs]
+symbol = " "
+
+[php]
+symbol = " "
+
+[python]
+symbol = " "
+
+[ruby]
+symbol = " "
+
+[rust]
+symbol = " "
