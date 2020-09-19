@@ -1,5 +1,11 @@
 $env:CONFIG_ROOT = $PSScriptRoot
 $env:XDG_CONFIG_ROOT = $env:CONFIG_ROOT
+$env:CONFIG_GENERATED = "$env:CONFIG_ROOT\__generated__"
+if (-not (Test-Path $env:CONFIG_GENERATED)) {
+    mkdir $env:CONFIG_GENERATED
+}
+
+# Run ps1 script as admin
 function asAdmin($file) {
     $pinfo = New-Object System.Diagnostics.ProcessStartInfo
     $pinfo.FileName = "powershell"
@@ -79,6 +85,8 @@ function Get-Git-Status() { git status }
 Export-ModuleMember -Function Get-Git-Status
 Set-Global-Alias gs Get-Git-Status
 
+Set-Variable MaximumHistoryCount 8192 -Scope Global
+
 # Run when a command is not found
 $ExecutionContext.InvokeCommand.CommandNotFoundAction = {
 	param($Name,[System.Management.Automation.CommandLookupEventArgs]$CommandLookupArgs)
@@ -121,5 +129,6 @@ function sudo {
 }
 Export-ModuleMember -Function sudo
 
-$vsModule = Import-Module "$env:CONFIG_ROOT\powershell\vs.psm1" -PassThru
-Export-ModuleMember -Function $vsModule
+Import-Module "$env:CONFIG_ROOT\powershell\vs.psm1" -Global
+Import-Module "$env:CONFIG_ROOT\powershell\keybindings.psm1" -Global
+Import-Module "$env:CONFIG_ROOT\powershell\gfn.psm1" -Global -DisableNameChecking
