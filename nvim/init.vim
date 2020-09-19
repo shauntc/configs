@@ -26,9 +26,6 @@ call plug#begin("~/.vim/plugged")
     Plug 'dag/vim-fish'
 call plug#end()
 
-" Help filetype detection
-autocmd BufRead *.fish set filetype=fish
-
 """ Colors!
 if (has("termguicolors"))
     set termguicolors
