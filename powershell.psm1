@@ -1,47 +1,41 @@
 $env:CONFIG_ROOT = $PSScriptRoot
 $env:XDG_CONFIG_ROOT = $env:CONFIG_ROOT
 $env:CONFIG_GENERATED = "$env:CONFIG_ROOT\__generated__"
+$env:USER_ADMIN = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator");
+Write-Host "isAdmin $env:USER_ADMIN"
 if (-not (Test-Path $env:CONFIG_GENERATED)) {
     mkdir $env:CONFIG_GENERATED
 }
 
-# Run ps1 script as admin
-function asAdmin($file) {
-    $pinfo = New-Object System.Diagnostics.ProcessStartInfo
-    $pinfo.FileName = "powershell"
-    $pinfo.Arguments = "-File $PSScriptRoot\powershell\$file.ps1"
-    $pinfo.Verb = "runas"
-    $pinfo.WorkingDirectory = get-location;
-    $p = New-Object System.Diagnostics.Process
-    $p.StartInfo = $pinfo
-    $p.Start() | Out-Null
-    $p.WaitForExit()
+Import-Module "$env:CONFIG_ROOT\powershell\sudo.psm1" -Global -ArgumentList $env:CONFIG_GENERATED
+# Check if command exists and we are in user space
+function Check-Command($command) {
+    # Don't install things in Admin mode (this is a hack to get around recursive behavior when using sudo)
+    return ($env:USER_ADMIN -eq $false) -and (-not (Get-Command $command -errorAction SilentlyContinue))
 }
-
 # Set command alias
 function Set-Global-Alias($command, $target) {
     Set-Alias -Name $command -Value $target -Option AllScope -Scope Global    
 }
-
 # install choco
-if (-not (Get-Command choco -errorAction SilentlyContinue)) {
+if (Check-Command choco) {
     Write-Host "choco is not installed, installing..."
-    asAdmin "choco"
+    sudo "./powershell/choco.ps1"
 }
 # Chocolatey profile
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 if (Test-Path($ChocolateyProfile)) {
-  Import-Module "$ChocolateyProfile"
+    Import-Module "$ChocolateyProfile"
 }
 
-if (-not (Get-Command rustup -errorAction SilentlyContinue)) {
+if (Check-Command rustup) {
     Write-Host "rustup is not installed, installing from https://sh.rustup.rs..."
     (Invoke-WebRequest --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs) | sh
 }
 
-if (-not (Get-Command nvim -errorAction SilentlyContinue)) {
+if (Check-Command nvim) {
     Write-Host "nvim is not installed, installing from choco..."
-    asAdmin "nvim"
+    sudo "choco install neovim -y"
     new-item -ItemType SymbolicLink -Value "$env:CONFIG_ROOT\nvim" -Path "~\AppData\Local\nvim"
     $file = Invoke-WebRequest -useb "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
     New-Item $file $HOME/vimfiles/autoload/plug.vim -Force
@@ -52,7 +46,7 @@ Set-Global-Alias vi nvim
 Set-Global-Alias v nvim
 
 function Confirm-Cargo-Install($command, $crateName = $command) {
-    if (-not (Get-Command $command -errorAction SilentlyContinue)) {
+    if (Check-Command $command) {
         Write-Host "Command $command not available, installing $crateName from cargo"
         Invoke-Expression "cargo install $crateName"
     }    
@@ -76,6 +70,15 @@ Set-Global-Alias l exa
 Confirm-Cargo-Install "rg" "ripgrep"
 Set-Global-Alias grep rg
 
+# fzf - fuzzy finder
+$env:FZF_DEFAULT_COMMAND = "rg --files --no-ignore-vcs --hidden"
+$env:FZF_DEFAULT_OPTS = "--height 20% --layout=reverse --info inline"
+if (Check-Command fzf) {
+    Write-Host "fzf is not installed, installing from choco..."
+    sudo "choco install fzf -y"
+}
+Set-Global-Alias fd fzf
+
 # tokei - tool for counting lines of code
 Confirm-Cargo-Install "tokei"
 
@@ -85,6 +88,7 @@ function Get-Git-Status() { git status }
 Export-ModuleMember -Function Get-Git-Status
 Set-Global-Alias gs Get-Git-Status
 
+# Increase the history length
 Set-Variable MaximumHistoryCount 8192 -Scope Global
 
 # Run when a command is not found
@@ -103,32 +107,14 @@ $ExecutionContext.InvokeCommand.CommandNotFoundAction = {
 				$directory = [System.String]::Join("/", @("..") * $num)
 				cd $directory
 			} else {
+                Get-Command | ForEach-Object {$_.Name } | fzf $Name
 				Write-Warning "'$Name' isn't a cmdlet, function, script file, file path, or operable program.";
 			}
 		}.GetNewClosure()
 	}
 }
 
-function touch($file) {
-    "" | Out-File $file -Encoding ASCII
-}
-Export-ModuleMember -Function touch
-
-function which($name) {
-    Get-Command $name | Select-Object -ExpandProperty Definition
-}
-Export-ModuleMember -Function which
-
-function sudo {
-    $file, [string]$arguments = $args;
-    $psi = new-object System.Diagnostics.ProcessStartInfo $file;
-    $psi.Arguments = $arguments;
-    $psi.Verb = "runas";
-    $psi.WorkingDirectory = get-location;
-    [System.Diagnostics.Process]::Start($psi) >> $null
-}
-Export-ModuleMember -Function sudo
-
 Import-Module "$env:CONFIG_ROOT\powershell\vs.psm1" -Global
 Import-Module "$env:CONFIG_ROOT\powershell\keybindings.psm1" -Global
-Import-Module "$env:CONFIG_ROOT\powershell\gfn.psm1" -Global -DisableNameChecking
+Import-Module "$env:CONFIG_ROOT\powershell\unix.psm1" -Global
+Import-Module "$env:CONFIG_ROOT\powershell\gfn.psm1" -Global -ArgumentList $env:CONFIG_GENERATED

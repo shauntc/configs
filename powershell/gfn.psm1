@@ -71,3 +71,4 @@ function gfn() {
     }
 
 }
+Export-ModuleMember -Function gfn
