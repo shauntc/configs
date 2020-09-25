@@ -25,7 +25,7 @@ if (Test-Path($ChocolateyProfile)) {
 
 # nvim - Editor setup
 if (commandExists nvim) {
-    $env:EDITOR = "nvim"
+    $env:EDITOR = "nvim -u '$env:CONFIG_ROOT\nvim\editor.vim'"
     Set-Global-Alias vim nvim
     Set-Global-Alias vi nvim
     Set-Global-Alias v nvim
