@@ -41,7 +41,7 @@ function gfn() {
         [Parameter(Position=1,ValueFromRemainingArguments)]
         [string]
         $body,
-        # Parameter help description
+        # Delete function name
         [Parameter()]
         [Alias("d")]
         [switch]
@@ -50,13 +50,16 @@ function gfn() {
         [Alias("l")]
         [switch]
         $list = $false,
-        # Function args
+        # Add function args eg "`$name" which can be referenced in the body
+        # use backtick (`) to escape $'s to prevent being interpreted as a variable on the call
         [Parameter()]
         [Alias("a")]
         [string]
         $arguments = ""
     )
-    if ($list) {
+    if ($list -and $name) {
+        cat "$generated\$name.psm1"
+    } elseif ($list) {
         return Get-Permenant-AliasList
     } elseif ($delete -and $name) {
         Clear-Permenant-Alias $name

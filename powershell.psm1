@@ -7,7 +7,7 @@ if (-not (Test-Path $env:CONFIG_GENERATED)) {
 }
 
 Import-Module "$env:CONFIG_ROOT\powershell\sudo.psm1" -Global -ArgumentList $env:CONFIG_GENERATED
-Import-Module "$env:CONFIG_ROOT\powershell\init.psm1" -Global
+Import-Module "$env:CONFIG_ROOT\powershell\init.psm1"
 
 function commandExists($command) {
     return (Get-Command $command -errorAction SilentlyContinue)
@@ -70,6 +70,8 @@ if (commandExists git) {
 
 # Increase the history length
 Set-Variable MaximumHistoryCount 8192 -Scope Global
+
+Set-Global-Alias open Invoke-Item
 
 # Run when a command is not found
 $ExecutionContext.InvokeCommand.CommandNotFoundAction = {

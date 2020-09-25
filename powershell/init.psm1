@@ -58,3 +58,5 @@ if (Check-Command fzf) {
     Write-Host "fzf is not installed, installing from choco..."
     sudo "choco install fzf -y"
 }
+
+Export-ModuleMember
