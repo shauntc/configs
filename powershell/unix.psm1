@@ -9,4 +9,3 @@ function which($name) {
 }
 Export-ModuleMember -Function which
 
-Set-Global-Alias open Invoke-Item

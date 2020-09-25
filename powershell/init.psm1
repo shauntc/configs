@@ -16,17 +16,19 @@ if (Check-Command choco) {
     sudo "./powershell/choco.ps1"
 }
 
-if (Check-Command rustup) {
-    Write-Host "rustup is not installed, installing from https://sh.rustup.rs..."
-    (Invoke-WebRequest --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs) | sh
-}
-
+# nvim - editor
 if (Check-Command nvim) {
     Write-Host "nvim is not installed, installing from choco..."
     sudo "choco install neovim -y"
     new-item -ItemType SymbolicLink -Value "$env:CONFIG_ROOT\nvim" -Path "~\AppData\Local\nvim"
     $file = Invoke-WebRequest -useb "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
     New-Item $file $HOME/vimfiles/autoload/plug.vim -Force
+}
+
+# rust - rustup/cargo installation
+if (Check-Command rustup) {
+    Write-Host "rustup is not installed, installing from https://sh.rustup.rs..."
+    (Invoke-WebRequest --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs) | sh
 }
 
 function Confirm-Cargo-Install($command, $crateName = $command) {
@@ -48,11 +50,11 @@ Confirm-Cargo-Install "exa" "--git https://github.com/zkat/exa"
 # rg - grep replacement
 Confirm-Cargo-Install "rg" "ripgrep"
 
+# tokei - tool for counting lines of code
+Confirm-Cargo-Install "tokei"
+
 # fzf - fuzzy finder
 if (Check-Command fzf) {
     Write-Host "fzf is not installed, installing from choco..."
     sudo "choco install fzf -y"
 }
-
-# tokei - tool for counting lines of code
-Confirm-Cargo-Install "tokei"

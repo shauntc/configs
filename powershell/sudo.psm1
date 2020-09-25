@@ -4,6 +4,7 @@ param (
     $genFolder = $env:CONFIG_GENERATED
 )
 
+# Run a command in admin mode
 function sudo() {
     [CmdletBinding()]
     param (

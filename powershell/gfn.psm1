@@ -17,15 +17,6 @@ foreach ($item in (Get-ChildItem $generated)) {
         Clear-Permenant-Alias $item.BaseName
     }
 }   
-function Set-Permenant-Alias($name, $target) {
-    $outFile = "$generated\$name.psm1"
-    "function $name() { $target };Export-ModuleMember -Function $name" | Out-File $outFile
-    try {
-        Import-Module $outFile -Global -Force
-    } catch {
-        Clear-Permenant-Alias $name
-    }
-}
 function Clear-Permenant-Alias($name) {
     $module = "$generated\$name.psm1"
     Remove-Module $name
@@ -38,6 +29,7 @@ function Get-Permenant-AliasList() {
     }
 }
 
+# create a generated function which persists
 function gfn() {
     [CmdletBinding()]
     param (
@@ -57,15 +49,25 @@ function gfn() {
         [Parameter()]
         [Alias("l")]
         [switch]
-        $list = $false
-        
+        $list = $false,
+        # Function args
+        [Parameter()]
+        [Alias("a")]
+        [string]
+        $arguments = ""
     )
     if ($list) {
         return Get-Permenant-AliasList
     } elseif ($delete -and $name) {
         Clear-Permenant-Alias $name
     } elseif ($name -and $body) {
-        Set-Permenant-Alias $name $body
+        $outFile = "$generated\$name.psm1"
+        "function $name($arguments) { $body };Export-ModuleMember -Function $name" | Out-File $outFile
+        try {
+            Import-Module $outFile -Global -Force
+        } catch {
+            Clear-Permenant-Alias $name
+        }
     } else {
         Write-Error "Invalid Invocation"
     }
