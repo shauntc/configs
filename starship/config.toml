@@ -1,97 +1,109 @@
-prompt_order = [
-    "username",
-    "time",
-    "directory",
-    "git_branch",
-    "git_commit",
-    "git_state",
-    "git_status",
-    "package",
-    # Language Versions
-    # "dotnet",
-    # "elixir",
-    # "elm",
-    # "erlang",
-    # "golang",
-    # "java",
-    # "julia",
-    # "nim",
-    # "nodejs",
-    # "ocaml",
-    # "php",
-    # "purescript",
-    # "python",
-    # "ruby",
-    "rust",
-    "terraform",
-    "zig",
-    "nix_shell",
-    "conda",
-    "memory_usage",
-    "aws",
-    "env_var",
-    "crystal",
-    "cmd_duration",
-    "custom",
-    "jobs",
-    "battery",
-    "line_break",
-    "character",
-]
+format = """[
+$time \
+$hostname\
+$shlvl\
+$kubernetes\
+$directory\
+$git_branch \
+$git_commit\
+$git_state\
+$git_status \
+$hg_branch\
+$docker_context\
+$package\
+$cmake\
+$dart\
+$dotnet\
+$elixir\
+$elm\
+$erlang\
+$golang\
+$helm\
+$java\
+$julia\
+$kotlin\
+$nim\
+$nodejs\
+$ocaml\
+$perl\
+$php\
+$purescript\
+$python\
+$ruby\
+$rust\
+$swift\
+$terraform\
+$vagrant\
+$zig\
+$nix_shell\
+$conda\
+$memory_usage\
+$aws\
+$gcloud\
+$openstack\
+$env_var\
+$crystal\
+$custom\
+$lua\
+$line_break\
+$cmd_duration\
+$jobs\
+$battery\
+$status\
+$character](bold white)"""
 
 [time]
-prefix = "["
-suffix = "]"
-style = "dimmed white"
+format = '[ $time ](bg:#888888 fg:black)'
 disabled = false
 
+[username]
+format = '[ $user @ ](bg:#888888 fg:black)'
+show_always = true
+
 [directory]
-prefix = ""
-suffix = ""
+format = "$path [$read_only]($read_only_style)"
 style = "white"
 truncation_length = 8
 truncate_to_repo = false
 
+[directory.substitutions]
+
 [git_branch]
-prefix = ""
-symbol = " "
-style = "dimmed white"
+format = "[ $branch](dimmed white)"
 
 [git_status]
-style = "dimmed white"
-suffix = " ]"
+format = '([$ahead_behind\[$all_status \]](dimmed white))'
 
-modified = { value = "  ", style = "red" }
+modified = " [$count ](red)"
 modified_count = { style = "red", enabled = true }
-untracked = { value = "  ", style = "red" }
+untracked = " [$count ](red) "
 untracked_count = { style = "red", enabled = true }
-deleted = { value = " 﫧 ", style = "red" }
+deleted = " [$count 﫧](red) "
 deleted_count = { style = "red", enabled = true }
-renamed = { value = " ﭯ ", style = "red" }
+renamed = " [$countﭯ](red) "
 renamed_count = { style = "red", enabled = true }
 
-staged = { value = "  ", style = "dimmed red" }
+staged = " [$count](dimmed red) "
 staged_count = { enabled = true, style = "dimmed red" }
 
-conflicted = { value = " != ", style = "yellow" }
+conflicted = " $count [!=](yellow) "
 conflicted_count = { enabled = true, style = "yellow" }
 
-stashed = { value = "  ", style = "dimmed white" }
+stashed = " $count [](dimmed white) "
 stashed_count = { style = "dimmed white", enabled = true }
 
-ahead = { value = "  ", style = "dimmed white" }
-behind = { value = "  ", style = "dimmed white" }
+ahead = " $count [](dimmed white) "
+behind = " $count [](dimmed white) "
 show_sync_count = true
-diverged = { value = "  ", style = "dimmed red" }
+diverged = " [](dimmed red) "
 
 [package]
+format = "[$symbol]($style)"
 symbol = " "
 display_private = true
 
-[username]
-show_always = true
-
 [aws]
+format = "[$symbol]($style)"
 symbol = " "
 
 [battery]
@@ -100,52 +112,69 @@ charging_symbol = ""
 discharging_symbol = ""
 
 [conda]
+format = "[$symbol]($style)"
 symbol = " "
 
 [docker]
+format = "[$symbol]($style)"
 symbol = " "
 
 [elixir]
+format = "[$symbol]($style)"
 symbol = " "
 
 [elm]
+format = "[$symbol]($style)"
 symbol = " "
 
 [golang]
+format = "[$symbol]($style)"
 symbol = " "
 
 [haskell]
+format = "[$symbol]($style)"
 symbol = " "
 
 [hg_branch]
+format = "[$symbol]($style)"
 symbol = " "
 
 [java]
+format = "[$symbol]($style)"
 symbol = " "
 
 [julia]
+format = "[$symbol]($style)"
 symbol = " "
 
 [memory_usage]
+format = "[$symbol]($style)"
 symbol = " "
 
 [nim]
+format = "[$symbol]($style)"
 symbol = " "
 
 [nix_shell]
+format = "[$symbol]($style)"
 symbol = " "
 
 [nodejs]
+format = "[$symbol]($style)"
 symbol = " "
 
 [php]
+format = "[$symbol]($style)"
 symbol = " "
 
 [python]
+format = "[$symbol]($style)"
 symbol = " "
 
 [ruby]
+format = "[$symbol]($style)"
 symbol = " "
 
 [rust]
+format = "[$symbol]($style)"
 symbol = " "
