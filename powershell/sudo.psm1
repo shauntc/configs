@@ -19,7 +19,7 @@ function sudo() {
     "Set-Location $location;`r`n$body" | Out-File $sudoFile
     $pinfo = New-Object System.Diagnostics.ProcessStartInfo
     $pinfo.FileName = "powershell"
-    $pinfo.Arguments = "-Command", "$sudoFile *> $outFile"
+    $pinfo.Arguments = "-Command", "$sudoFile | Tee-Object -FilePath $outFile"
     $pinfo.Verb = "runas"
     $p = New-Object System.Diagnostics.Process
     $p.StartInfo = $pinfo

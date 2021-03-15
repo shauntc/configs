@@ -11,7 +11,7 @@ if (-not (Test-Path $generated)) {
 
 foreach ($item in (Get-ChildItem $generated)) {
     try {
-        Import-Module "$generated\$item" -Global
+        Import-Module $item.FullName -Global
     } catch {
         Write-Error "Error importing gfn '${item.BaseName}', removing it..."
         Clear-Permenant-Alias $item.BaseName

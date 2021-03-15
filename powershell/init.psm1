@@ -13,22 +13,27 @@ function Set-Global-Alias($command, $target) {
 # install choco
 if (Check-Command choco) {
     Write-Host "choco is not installed, installing..."
-    sudo "./powershell/choco.ps1"
+    sudo "$PSScriptRoot/choco.ps1"
 }
 
 # nvim - editor
 if (Check-Command nvim) {
-    Write-Host "nvim is not installed, installing from choco..."
-    sudo "choco install neovim -y"
-    new-item -ItemType SymbolicLink -Value "$env:CONFIG_ROOT\nvim" -Path "~\AppData\Local\nvim"
-    $file = Invoke-WebRequest -useb "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-    New-Item $file $HOME/vimfiles/autoload/plug.vim -Force
+    Write-Host "Neovim is not installed, installing from chocolaty..."
+    sudo "$PSScriptRoot/nvim.ps1"
 }
 
 # rust - rustup/cargo installation
 if (Check-Command rustup) {
     Write-Host "rustup is not installed, installing from https://sh.rustup.rs..."
-    (Invoke-WebRequest --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs) | sh
+
+    Read-Host -Prompt "go to https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=BuildTools, run the downloaded installer, and install 'C++ build tools', when complete press enter to continue"
+    $env:PATH = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+
+    $rustInit = "$env:CONFIG_GENERATED\rustup-init.exe"
+    Invoke-WebRequest -useb https://win.rustup.rs/x86_64 -OutFile $rustInit
+    sudo $rustInit
+    Remove-Item $rustInit
+    $env:PATH = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 }
 
 function Confirm-Cargo-Install($command, $crateName = $command) {
@@ -40,6 +45,7 @@ function Confirm-Cargo-Install($command, $crateName = $command) {
 
 # starship - Command Prompt
 Confirm-Cargo-Install "starship"
+# TODO: Add some prompt/method for downloading nerd font 'CaskaydiaCove NF' from nerdfonts
 
 # bat - cat replacement
 Confirm-Cargo-Install "bat"

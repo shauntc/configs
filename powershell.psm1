@@ -63,9 +63,9 @@ if (commandExists fzf) {
 # git commmands
 if (commandExists git) {
     Set-Global-Alias g git
-    function Get-Git-Status() { git status }
-    Export-ModuleMember -Function Get-Git-Status
-    Set-Global-Alias gs Get-Git-Status
+    function Get-GitStatus() { git status }
+    Export-ModuleMember -Function Get-GitStatus
+    Set-Global-Alias gs Get-GitStatus
 }
 
 # Increase the history length
