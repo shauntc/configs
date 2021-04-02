@@ -69,7 +69,7 @@ truncate_to_repo = false
 [directory.substitutions]
 
 [git_branch]
-format = "[ $branch](dimmed white)"
+format = "[ $branch](dimmed green)"
 
 [git_status]
 format = '([$ahead_behind\[$all_status \]](dimmed white))'
