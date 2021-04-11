@@ -6,6 +6,9 @@ tmux (Ctrl + b)
     window next/prev: n/p
     move pane in direction: arrow keys
 
+wezterm:
+    resize pane: ctrl+alt+shift + (up/down/left/right)
+
 nvim ([mode] keys)
     repeat .
         repeates the entire last command (including your insertion)

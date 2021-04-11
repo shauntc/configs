@@ -56,7 +56,7 @@ if (commandExists rg) {
 # fzf - fuzzy finder
 if (commandExists fzf) {
     $env:FZF_DEFAULT_COMMAND = "rg --files --no-ignore-vcs --hidden"
-    $env:FZF_DEFAULT_OPTS = "--height 20% --layout=reverse --info inline"
+    $env:FZF_DEFAULT_OPTS = "--layout=reverse --info inline"
     Set-Global-Alias fd fzf
 }
 
@@ -73,26 +73,34 @@ Set-Variable MaximumHistoryCount 8192 -Scope Global
 
 Set-Global-Alias open Invoke-Item
 
+if (commandExists python) {
+    Set-Global-Alias python3 python
+}
+
 # Run when a command is not found
 $ExecutionContext.InvokeCommand.CommandNotFoundAction = {
-	param($Name,[System.Management.Automation.CommandLookupEventArgs]$CommandLookupArgs)
+    param($Name, [System.Management.Automation.CommandLookupEventArgs]$CommandLookupArgs)
 
-	# Check if command was directly invoked by user
-	# For a command invoked by a running script, CommandOrigin would be `Internal`
-	if($CommandLookupArgs.CommandOrigin -eq 'Runspace'){
-		# Assign a new action scriptblock, close over $Name from this scope
-		$CommandLookupArgs.CommandScriptBlock = {
-			if (Test-Path($Name)) { # navigate without cd
-				Set-Location $Name;
-			}  elseif ($Name -cmatch "^get-\.\.+$") { #if it's a bunch of dots, go up dirs
-				$num = ($Name -replace "get-").Length - 1;
-				$directory = [System.String]::Join("/", @("..") * $num)
-			        Set-Location $directory
-			} else {
-				Write-Warning "'$Name' isn't a cmdlet, function, script file, file path, or operable program.";
-			}
-		}.GetNewClosure()
-	}
+    # Check if command was directly invoked by user
+    # For a command invoked by a running script, CommandOrigin would be `Internal`
+    if ($CommandLookupArgs.CommandOrigin -eq 'Runspace') {
+        # Assign a new action scriptblock, close over $Name from this scope
+        $CommandLookupArgs.CommandScriptBlock = {
+            if (Test-Path($Name)) {
+                # navigate without cd
+                Set-Location $Name;
+            }
+            elseif ($Name -cmatch "^get-\.\.+$") {
+                #if it's a bunch of dots, go up dirs
+                $num = ($Name -replace "get-").Length - 1;
+                $directory = [System.String]::Join("/", @("..") * $num)
+                Set-Location $directory
+            }
+            else {
+                Write-Warning "'$Name' isn't a cmdlet, function, script file, file path, or operable program.";
+            }
+        }.GetNewClosure()
+    }
 }
 
 Import-Module "$env:CONFIG_ROOT\powershell\vs.psm1" -Global

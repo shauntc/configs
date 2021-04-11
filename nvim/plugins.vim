@@ -11,7 +11,7 @@ call plug#begin("~/.vim/plugged")
     Plug 'zivyangll/git-blame.vim'
     Plug 'airblade/vim-gitgutter'
     " Functional
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf',
     Plug 'junegunn/fzf.vim'
     Plug 'tpope/vim-sleuth' " Automagically set tab size
     " Language Server
