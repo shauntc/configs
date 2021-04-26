@@ -10,7 +10,8 @@ return {
     allow_square_glyphs_to_overflow_width = "WhenFollowedBySpace",
     window_close_confirmation="NeverPrompt",
     dont_warn_about_missing_fonts = true,
-
+    tab_and_split_indices_are_zero_based = true,
+    enable_scroll_bar = true,
     -- tmux like keybindings
     leader = { key="b", mods="CTRL", timeout_milliseconds=1000},
     keys = {
@@ -34,5 +35,15 @@ return {
     mouse_bindings = {
         {event={Up={streak=1, button="Left"}},mods="NONE",action=wezterm.action{CompleteSelection="PrimarySelection"}},
         {event={Up={streak=1, button="Left"}}, mods="CTRL", action="OpenLinkAtMouseCursor"}
+    },
+    window_padding = {
+        left = 8,
+        right = 8,
+        top = 0,
+        bottom = 0,
+    },
+    inactive_pane_hsb = {
+        saturation = 1.0,
+        brightness = 0.5,
     }
 }
