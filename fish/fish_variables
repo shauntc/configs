@@ -1,5 +1,9 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
+SETUVAR --export CONFIG_ROOT:/Users/shaun/\x2econfig
+SETUVAR --export STARSHIP_CONFIG:/Users/shaun/\x2econfig/starship/config\x2etoml
+SETUVAR --export XDG_CONFIG_ROOT:/Users/shaun/\x2econfig
+SETUVAR --export XDG_DATA_HOME:/Users/shaun/\x2elocal/share
 SETUVAR __fish_initialized:3100
 SETUVAR fish_color_autosuggestion:555\x1ebrblack
 SETUVAR fish_color_cancel:\x2dr
@@ -30,4 +34,4 @@ SETUVAR fish_pager_color_completion:normal
 SETUVAR fish_pager_color_description:555\x1eyellow
 SETUVAR fish_pager_color_prefix:cyan
 SETUVAR fish_pager_color_progress:cyan
-SETUVAR fish_user_paths:/home/shauntc/\x2efzf/bin
+SETUVAR fish_user_paths:/home/shauntc/\x2efzf/bin\x1e/opt/homebrew/opt/fzf/bin

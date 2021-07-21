@@ -1,6 +1,12 @@
-set PATH ~/.cargo/bin $PATH
+set PATH $PATH /opt/homebrew/bin $HOME/.cargo/bin /opt/homebrew/bin/brew
+set -Ux CONFIG_ROOT $HOME/.config
+set -Ux XDG_CONFIG_ROOT $CONFIG_ROOT
+set -Ux XDG_DATA_HOME $HOME/.local/share
 
+set -Ux STARSHIP_CONFIG $CONFIG_ROOT/starship/config.toml
 set FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+
+starship init fish | source
 
 # Java
 if test -d /usr/lib/jvm/java-8-openjdk-amd64
