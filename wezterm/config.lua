@@ -6,7 +6,7 @@ return {
     font = font,
     automatically_reload_config = false,
     default_prog = {"powershell.exe"},
-    font_size = 16,
+    font_size = 12,
     allow_square_glyphs_to_overflow_width = "WhenFollowedBySpace",
     window_close_confirmation="NeverPrompt",
     dont_warn_about_missing_fonts = true,
