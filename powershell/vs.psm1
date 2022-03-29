@@ -1,17 +1,21 @@
 function getVsPath() {
-    $vsYears = 2019, 2017;
-    $vsTypes = "Enterprise", "Professional", "Community"
+    $vsYears = 2022, 2019, 2017;
+    $vsTypes = "Enterprise", "Professional", "Community";
+    $programFilesPaths = "${env:ProgramFiles(x86)}", $env:ProgramFiles;
     foreach($vsYear in $vsYears) {
         foreach($vsType in $vsTypes) {
-            $vsPath = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\$vsYear\$vsType";
-            if (Test-Path($vsPath)) {
-                return $vsPath
+            foreach($programFiles in $programFilesPaths) {
+                $vsPath = "$programFiles\Microsoft Visual Studio\$vsYear\$vsType";
+                if (Test-Path($vsPath)) {
+                    return $vsPath
+                }
             }
         }
     }
-
 }
+
 $VisualStudioPath = getVsPath
+Write-Host "Vs path: $VisualStudioPath"
 if($VisualStudioPath) {
     function vs {
         Param(
