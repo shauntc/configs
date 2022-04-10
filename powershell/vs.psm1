@@ -15,7 +15,6 @@ function getVsPath() {
 }
 
 $VisualStudioPath = getVsPath
-Write-Host "Vs path: $VisualStudioPath"
 if($VisualStudioPath) {
     function vs {
         Param(
@@ -109,4 +108,6 @@ if($VisualStudioPath) {
         }
     }
     Export-ModuleMember -Function vscmd
+} else {
+    Write-Host "Unable to find a valid path for Visual Studio" -BackgroundColor Red
 }
