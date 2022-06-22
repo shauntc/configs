@@ -38,7 +38,8 @@ if($VisualStudioPath) {
             $SolutionPath = Resolve-Path $SolutionPath
 
             if([System.IO.File]::Exists($SolutionPath)) {
-                Write-Host "Visual Studio opening $SolutionPath with args $RemainingArgs";
+                $argMessage = if ($RemainingArgs) {" with args $RemainingArgs"} else { "" };
+                Write-Host "Visual Studio opening $SolutionPath$argMessage";
                 & "${VisualStudioPath}\Common7\IDE\devenv.exe" $SolutionPath $RemainingArgs;
             } else {
                 Write-Host "Error: No Solution found for path: $inputPath" -BackgroundColor Red;
