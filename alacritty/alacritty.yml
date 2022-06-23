@@ -115,8 +115,8 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: CaskaydiaCove Nerd Font
-
+    family: CaskaydiaCove NF
+    style:
     # The `style` can be specified to pick a specific face.
     #style: Regular
 
@@ -179,148 +179,40 @@ font:
 # If `true`, bold text is drawn using the bright color variants.
 #draw_bold_text_with_bright_colors: false
 
-# Colors (Tomorrow Night)
 colors:
   # Default colors
-  #primary:
-  #  background: '#1d1f21'
-  #  foreground: '#c5c8c6'
   primary:
-      background: '#181818'
-      foreground: '#d8d8d8'
+    background: '#1e1e1e'
+    foreground: '#d4d4d4'
 
-    # Bright and dim foreground colors
-    #
-    # The dimmed foreground color is calculated automatically if it is not
-    # present. If the bright foreground color is not set, or
-    # `draw_bold_text_with_bright_colors` is `false`, the normal foreground
-    # color will be used.
-    #dim_foreground: '#828482'
-    #bright_foreground: '#eaeaea'
-
-  # Cursor colors
-  #
-  # Colors which should be used to draw the terminal cursor.
-  #
-  # Allowed values are CellForeground and CellBackground, which reference the
-  # affected cell, or hexadecimal colors like #ff00ff.
-  #cursor:
-  #  text: CellBackground
-  #  cursor: CellForeground
+  # Colors the cursor will use if `custom_cursor_colors` is true
   cursor:
-    text: '#d8d8d8'
-    cursor: '#d8d8d8'
-
-  # Vi mode cursor colors
-  #
-  # Colors for the cursor when the vi mode is active.
-  #
-  # Allowed values are CellForeground and CellBackground, which reference the
-  # affected cell, or hexadecimal colors like #ff00ff.
-  #vi_mode_cursor:
-  #  text: CellBackground
-  #  cursor: CellForeground
-
-  # Search colors
-  #
-  # Colors used for the search bar and match highlighting.
-  #search:
-    # Allowed values are CellForeground and CellBackground, which reference the
-    # affected cell, or hexadecimal colors like #ff00ff.
-    #matches:
-    #  foreground: '#000000'
-    #  background: '#ffffff'
-    #focused_match:
-    #  foreground: CellBackground
-    #  background: CellForeground
-
-    #bar:
-    #  background: '#c5c8c6'
-    #  foreground: '#1d1f21'
-
-  # Line indicator
-  #
-  # Color used for the indicator displaying the position in history during
-  # search and vi mode.
-  #
-  # By default, these will use the opposing primary color.
-  #line_indicator:
-  #  foreground: None
-  #  background: None
-
-  # Selection colors
-  #
-  # Colors which should be used to draw the selection area.
-  #
-  # Allowed values are CellForeground and CellBackground, which reference the
-  # affected cell, or hexadecimal colors like #ff00ff.
-  #selection:
-  #  text: CellBackground
-  #  background: CellForeground
+    text: '#d4d4d4'
+    cursor: '#a6a6a6'
 
   # Normal colors
-  #normal:
-  #  black:   '#1d1f21'
-  #  red:     '#cc6666'
-  #  green:   '#b5bd68'
-  #  yellow:  '#f0c674'
-  #  blue:    '#81a2be'
-  #  magenta: '#b294bb'
-  #  cyan:    '#8abeb7'
-  #  white:   '#c5c8c6'
   normal:
-    black:   '#181818'
-    red:     '#ab4642'
-    green:   '#a1b56c'
-    yellow:  '#f7ca88'
-    blue:    '#7cafc2'
-    magenta: '#ba8baf'
-    cyan:    '#86c1b9'
-    white:   '#d8d8d8'
+    black:   '#111111'
+    red:     '#ff1212'
+    green:   '#6A9955'
+    yellow:  '#cca700'
+    blue:    '#005abb'
+    magenta: '#c586c0'
+    cyan:    '#4ec9b0'
+    white:   '#ffffff'
 
   # Bright colors
-  #bright:
-  #  black:   '#666666'
-  #  red:     '#d54e53'
-  #  green:   '#b9ca4a'
-  #  yellow:  '#e7c547'
-  #  blue:    '#7aa6da'
-  #  magenta: '#c397d8'
-  #  cyan:    '#70c0b1'
-  #  white:   '#eaeaea'
   bright:
-    black:   '#585858'
-    red:     '#ab4642'
-    green:   '#a1b56c'
-    yellow:  '#f7ca88'
-    blue:    '#7cafc2'
-    magenta: '#ba8baf'
-    cyan:    '#86c1b9'
-    white:   '#f8f8f8'
+    black:   '0x4a4a4a'
+    red:     '0xf78c6c'
+    green:   '0x303030'
+    yellow:  '0x353535'
+    blue:    '#75beff'
+    magenta: '0xeeffff'
+    cyan:    '0xff5370'
+    white:   '0xffffff'
 
-  # Dim colors
-  #
-  # If the dim colors are not set, they will be calculated automatically based
-  # on the `normal` colors.
-  #dim:
-  #  black:   '#131415'
-  #  red:     '#864343'
-  #  green:   '#777c44'
-  #  yellow:  '#9e824c'
-  #  blue:    '#556a7d'
-  #  magenta: '#75617b'
-  #  cyan:    '#5b7d78'
-  #  white:   '#828482'
-
-  # Indexed Colors
-  #
-  # The indexed colors include all colors from 16 to 256.
-  # When these are not set, they're filled with sensible defaults.
-  #
-  # Example:
-  #   `- { index: 16, color: '#ff00ff' }`
-  #
-  #indexed_colors: []
+draw_bold_text_with_bright_colors: false
 
 # Bell
 #
@@ -429,8 +321,8 @@ colors:
 #   - (macOS) /bin/bash --login
 #   - (Linux/BSD) user login shell
 #   - (Windows) powershell
-#shell:
-#  program: /bin/bash
+shell:
+  program: C:\Users\shcampbe\.cargo\bin\nu.exe
 #  args:
 #    - --login
 
@@ -438,7 +330,7 @@ colors:
 #
 # Directory the shell is started in. If this is unset, or `None`, the working
 # directory of the parent process will be used.
-#working_directory: None
+working_directory: C:/Users/shcampbe
 
 # Send ESC (\x1b) before characters when alt is pressed.
 #alt_send_esc: true

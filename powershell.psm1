@@ -14,7 +14,7 @@ function commandExists($command) {
 }
 # Set command alias
 function Set-Global-Alias($command, $target) {
-    Set-Alias -Name $command -Value $target -Option AllScope -Scope Global    
+    Set-Alias -Name $command -Value $target -Option AllScope -Scope Global
 }
 
 # Chocolatey profile
@@ -23,12 +23,13 @@ if (Test-Path($ChocolateyProfile)) {
     Import-Module "$ChocolateyProfile"
 }
 
-# nvim - Editor setup
-if (commandExists nvim) {
-    $env:EDITOR = "nvim -u '$env:CONFIG_ROOT\nvim\editor.vim'"
-    Set-Global-Alias vim nvim
-    Set-Global-Alias vi nvim
-    Set-Global-Alias v nvim
+# helix - editor setup
+if (commandExists hx) {
+    if (-not $env:HELIX_RUNTIME) {
+        Write-Host "Helix Editor runtime folder not set, please set 'HELIX_RUNTIME' env var"
+    }
+    $env:HELIX_CONFIG = "$env:CONFIG_ROOT\helix"
+    $env:EDITOR = "hx"
 }
 
 # starship - Command Prompt
