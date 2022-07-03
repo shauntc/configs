@@ -13,13 +13,16 @@ let-env ENV_CONVERSIONS = {
   }
 }
 
+let-env CONFIG_GENERATED = ($env.CONFIG_ROOT | path join '__generated__')
 # Directories to search for scripts when calling source or use
 #
 # By default, <nushell-config-dir>/scripts is added
 let-env NU_LIB_DIRS = [
     ($nu.config-path | path dirname | path join 'scripts'),
-    ($env.CONFIG_ROOT | path join 'nu')
+    ($env.CONFIG_ROOT | path join 'nu'),
+    ($env.CONFIG_GENERATED)
 ]
+
 
 # Directories to search for plugin binaries when calling register
 #
@@ -27,3 +30,6 @@ let-env NU_LIB_DIRS = [
 let-env NU_PLUGIN_DIRS = [
     ($nu.config-path | path dirname | path join 'plugins')
 ]
+
+let-env HELIX_CONFIG = ($env.CONFIG_ROOT | path join "helix")
+let-env EDITOR = "hx"
