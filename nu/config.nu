@@ -1,6 +1,5 @@
 # Nushell Config File
 source starship.nu
-source 'login-env.nu'
 
 overlay add 'windows\vs.nu'
 
