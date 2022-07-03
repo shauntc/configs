@@ -1,21 +1,13 @@
 Param(
     # Delete function name
-    [Parameter()]
-    [Alias("a")]
-    [switch]
+    [Parameter(), Alias("a"), switch]
     $admin = $false,
 
-    [parameter(
-        Position = 0,
-        ParameterSetName = "Solution"
-    )]
+    [parameter(Position = 0, ParameterSetName = "Solution")]
     [String] $SolutionPath,
 
-    [parameter(
-        ValueFromRemainingArguments = $true
-    )]
-    [String[]]
-    $RemainingArgs
+    [parameter(ValueFromRemainingArguments = $true)]
+    [String[]] $RemainingArgs
 )
 
 function getVsPath() {
