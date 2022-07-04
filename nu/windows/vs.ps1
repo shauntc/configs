@@ -1,7 +1,7 @@
 Param(
     # Delete function name
-    [Parameter(), Alias("a"), switch]
-    $admin = $false,
+    [parameter()][alias("a")]
+    [switch]$admin = $false,
 
     [parameter(Position = 0, ParameterSetName = "Solution")]
     [String] $SolutionPath,
