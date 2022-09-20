@@ -1,14 +1,14 @@
 # Nushell Config File
 source starship.nu
 
-overlay add 'windows\vs.nu'
+overlay use 'windows\vs.nu'
 
 # completions
-overlay add 'completions\cargo.nu'
-overlay add 'completions\git.nu'
-overlay add 'completions\npm.nu'
-overlay add 'completions\nu.nu'
-overlay add 'completions\yarn.nu'
+overlay use 'completions\cargo.nu'
+overlay use 'completions\git.nu'
+overlay use 'completions\npm.nu'
+overlay use 'completions\nu.nu'
+overlay use 'completions\yarn.nu'
 
 # for more information on themes see
 # https://www.nushell.sh/book/coloring_and_theming.html
@@ -65,6 +65,7 @@ let default_theme = {
 
 # The default config record. This is where much of your global configuration is setup.
 let-env config = {
+  show_banner: false
   filesize_metric: false
   table_mode: none # basic, compact, compact_double, light, thin, with_love, rounded, reinforced, heavy, none, other
   use_ls_colors: true

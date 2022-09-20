@@ -255,7 +255,7 @@ export extern "yarn npm logout" [
 export extern "yarn npm publish" [
   --access: string # The access level of the published package (public or restricted)
   --tag: string # The tag on the registry that the package should be attached to
-  --tolerate-republish # Warn and exit when republishing an already existing version of a package 
+  --tolerate-republish # Warn and exit when republishing an already existing version of a package
   --opt: string # The OTP token to use with the command
 ]
 # Add a tag for a specific version of a package.
@@ -309,7 +309,7 @@ export extern "yarn plugin" []
 export extern "yarn plugin import from sources" [
   --path: string # The path where the repository should be cloned to
   --repository: string # The repository that should be cloned
-  --branch: string # The branch of the repository that should be cloned 
+  --branch: string # The branch of the repository that should be cloned
   --no-minify # Build a plugin for development (debugging) - non-minified and non-mangled
   --force(-f) # Always clone the repository instead of trying to fetch the latest commits
   plugin: string
@@ -351,7 +351,7 @@ def "nu-complete yarn rebuild" [] {
 
 # Rebuild the project's native packages
 export extern "yarn rebuild" [
-  ...packages?: string@"nu-complete yarn rebuild"
+  ...packages: string@"nu-complete yarn rebuild"
 ]
 
 # Remove a dependency from the project.
@@ -395,7 +395,7 @@ export extern "yarn set resolution" [
 export extern "yarn set version from sources" [
   --path: string # The path where the repository should be cloned to
   --repository: string # The repository that should be cloned
-  --branch: string # The branch of the repository that should be cloned 
+  --branch: string # The branch of the repository that should be cloned
   --no-minify # Build a plugin for development (debugging) - non-minified and non-mangled
   --force(-f) # Always clone the repository instead of trying to fetch the latest commits
   --skip-plugins # Skip updating the contrib plugins
@@ -417,7 +417,7 @@ export extern "yarn stage" [
 # Disconnect the local project from another one.
 export extern "yarn unlink" [
   --all(-A) # Unlink all workspaces belonging to the target project from the current one
-  ...packages?: string
+  ...packages: string
 ]
 
 # Force the unpacking of a list of packages
@@ -425,7 +425,7 @@ export extern "yarn unplug" [
   --all(-A) #Unplug direct dependencies from the entire project
   --recursive(-R) #Unplug both direct and transitive dependencies
   --json # Format the output as an NDJSON stream
-  ...packages?: string
+  ...packages: string
 ]
 
 # Upgrade dependencies across the project.
@@ -480,7 +480,7 @@ def "nu-complete yarn why" [] {
 }
 # Display the reason why a package is needed.
 export extern "yarn why" [
-  --recursive(-R) # List, for each workspace, what are all the paths that lead to the dependency 
+  --recursive(-R) # List, for each workspace, what are all the paths that lead to the dependency
   --json # Format the output as an NDJSON stream
   --peers # Also print the peer dependencies that match the specified name
   package: string@"nu-complete yarn why"
@@ -501,7 +501,7 @@ export extern "yarn workspaces focus" [
   --json # Format the output as an NDJSON stream
   --production # Only install regular dependencies by omitting dev dependencies
   --all(-A) # Install the entire project
-  ...packages?: string
+  ...packages: string
 ]
 # Run a command on all workspaces. NOTE: requires the workspace-tools plugin to be installed.
 export extern "yarn workspaces foreach" [
