@@ -1,15 +1,3 @@
-# Nushell Config File
-source starship.nu
-
-overlay use 'windows\vs.nu'
-
-# completions
-overlay use 'completions\cargo.nu'
-overlay use 'completions\git.nu'
-overlay use 'completions\npm.nu'
-overlay use 'completions\nu.nu'
-overlay use 'completions\yarn.nu'
-
 # for more information on themes see
 # https://www.nushell.sh/book/coloring_and_theming.html
 let default_theme = {
@@ -76,7 +64,6 @@ let-env config = {
   quick_completions: false  # set this to false to prevent auto-selecting completions when only one remains
   partial_completions: true  # set this to false to prevent partial filling of the prompt
   completion_algorithm: "prefix"  # prefix, fuzzy
-  animate_prompt: false # redraw the prompt every second
   float_precision: 2
   # buffer_editor: "emacs" # command that will be used to edit the current line buffer with ctrl+o, if unset fallback to $env.EDITOR and $env.VISUAL
   use_ansi_coloring: true
