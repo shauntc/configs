@@ -1,6 +1,7 @@
 overlay use 'starship.nu'
 
 overlay use 'windows\vs.nu'
+overlay use 'util\gu.nu'
 
 # completions
 overlay use 'completions\cargo.nu'
