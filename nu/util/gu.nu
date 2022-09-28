@@ -5,18 +5,18 @@ export def "gu push" [] {
 }
 
 def not_empty [] {
-    each {|value| (echo $value | str length) != 0}
+    par-each {|value| (echo $value | str length) != 0}
 }
 
 def commit_date [] {
-    each { |branch|
+    par-each { |branch|
         let author_date = ((git log $branch -n 1 --format=%ad) | str trim)
         if ($author_date | not_empty) {
             $author_date | into datetime
         } else {
-            let commiter_date = ((git log $branch -n 1 --format=%cd) | str trim)
-            if ($commiter_date | not_empty) {
-                $commiter_date | into datetime
+            let origin_date = ((git log $"remotes/origin/($branch)" -n 1 --format=%cd) | str trim)
+            if ($origin_date | not_empty) {
+                $origin_date | into datetime
             }
         }
     }
@@ -29,8 +29,9 @@ export def "gu branches" [user = 'shcampbe'] {
         where -b { ($in | str contains $"users/($user)") || ($in | str contains $"user/($user)") } |
         str replace '\*' '' |
         str trim |
+        str replace 'remotes/[^/]+/' "" |
+        uniq |
         wrap 'branch' |
-        insert 'local' {$in.branch | str contains -n 'remotes/' } |
         insert 'last commit' { $in.branch | commit_date } |
-        update 'branch' {$in.branch | str replace 'remotes/[^/]+/' ""}
+        sort-by 'last commit' -r
 }
