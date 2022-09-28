@@ -94,7 +94,8 @@ export extern "git push" [
   --dry-run(-n)                                   # dry run
   --exec: string                                  # receive pack program
   --follow-tags                                   # push missing but relevant tags
-  --force-with-lease: string                      # require old value of ref to be at this value
+  # TODO: force-with-lease has an optional string param but nushell does not currently impl optional string params
+  --force-with-lease                              # require old value of ref to be at this value
   --force(-f)                                     # force updates
   --ipv4(-4)                                      # use IPv4 addresses only
   --ipv6(-6)                                      # use IPv6 addresses only
@@ -137,8 +138,8 @@ export extern "git switch" [
 ]
 
 def "nu-complete git diff" [] {
-  # TODO: this completion fails if there are files with spaces in the name
-  git status --porcelain | lines | each { |line| $line | str trim } | split column ' ' "status" "file" | where status != '??' | get file
+  # TODO: this impl includes untracked files which don't need to be shown
+  git status --porcelain | lines | str replace '.[^s]? ' ''
 }
 
 export extern "git diff" [
@@ -164,4 +165,30 @@ export extern "git diff" [
   -S: string                                      # find filepair whose only one side contains the string.
   --pickaxe-all                                   # show all files diff when -S is used and hit is found.
   -a  --text                                      # treat all files as text.
+]
+
+def "nu-complete git add" [] {
+  git status --porcelain | lines | str replace '.[^s]? ' ''
+}
+
+export extern "git add" [
+  ...files: string@"nu-complete git add"
+  -n, --dry-run                                   # dry run
+  -v, --verbose                                   # be verbose
+  -i, --interactive                               # interactive picking
+  -p, --patch                                     # select hunks interactively
+  -e, --edit                                      # edit current diff and apply
+  -f, --force                                     # allow adding otherwise ignored files
+  -u, --update                                    # update tracked files
+  --renormalize                                   # renormalize EOL of tracked files (implies -u)
+  -N, --intent-to-add                             # record only the fact that the path will be added later
+  -A, --all                                       # add changes from all tracked and untracked files
+  --ignore-removal                                # ignore paths removed in the working tree (same as --no-all)
+  --refresh                                       # don't add, only refresh the index
+  --ignore-errors                                 # just skip files which cannot be added because of errors
+  --ignore-missing                                # check if - even missing - files are ignored in dry run
+  --sparse                                        # allow updating entries outside of the sparse-checkout cone
+  --chmod: string                                 # override the executable bit of the listed files
+  --pathspec-from-file: string                    # read pathspec from file
+  --pathspec-file-nul: string                     # with --pathspec-from-file, pathspec elements are separated with NUL character
 ]
