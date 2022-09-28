@@ -4,34 +4,22 @@ export def "gu push" [] {
     git push --set-upstream $remote $branch
 }
 
-def not_empty [] {
-    par-each {|value| (echo $value | str length) != 0}
-}
+def not_empty [] { each {|value| (echo $value | str length) != 0} }
 
-def commit_date [] {
-    par-each { |branch|
-        let author_date = ((git log $branch -n 1 --format=%ad) | str trim)
-        if ($author_date | not_empty) {
-            $author_date | into datetime
-        } else {
-            let origin_date = ((git log $"remotes/origin/($branch)" -n 1 --format=%cd) | str trim)
-            if ($origin_date | not_empty) {
-                $origin_date | into datetime
-            }
-        }
-    }
+def commit_date [] { each { |branch| (git log $branch -n 1 --format=%ad) | str trim | into datetime } }
 
-}
-
+# get all branches for a user
 export def "gu branches" [user = 'shcampbe'] {
     git branch -a |
         lines |
         where -b { ($in | str contains $"users/($user)") || ($in | str contains $"user/($user)") } |
         str replace '\*' '' |
         str trim |
-        str replace 'remotes/[^/]+/' "" |
-        uniq |
         wrap 'branch' |
         insert 'last commit' { $in.branch | commit_date } |
-        sort-by 'last commit' -r
+        sort-by 'last commit' -r |
+        update 'branch' { $in.branch | str replace 'remotes/[^/]+/' "" } |
+        group-by 'branch' |
+        transpose branch 'last commit' |
+        update 'last commit' { $in.'last commit' | get 'last commit'.0 }
 }
