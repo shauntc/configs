@@ -1,3 +1,5 @@
 node_modules
 __generated__
 github-copilot/hosts.json
+qBittorrent
+.DS_Store

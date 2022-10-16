@@ -14,9 +14,7 @@ let-env ENV_CONVERSIONS = {
 }
 
 let-env CONFIG_GENERATED = ($env.CONFIG_ROOT | path join '__generated__')
-# Directories to search for scripts when calling source or use
-#
-# By default, <nushell-config-dir>/scripts is added
+
 let-env NU_LIB_DIRS = [
     ($nu.config-path | path dirname | path join 'scripts'),
     ($env.CONFIG_ROOT | path join 'nu'),
@@ -33,3 +31,6 @@ let-env NU_PLUGIN_DIRS = [
 
 let-env HELIX_CONFIG = ($env.CONFIG_ROOT | path join "helix")
 let-env EDITOR = "hx"
+
+# TODO: Make this conditional
+let-env RUSTC_WRAPPER = (which sccache | get 0.path)

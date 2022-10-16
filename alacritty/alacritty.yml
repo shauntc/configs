@@ -115,8 +115,8 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: CaskaydiaCove NF
-    style:
+    family: CaskaydiaCove Nerd Font
+    # style:
     # The `style` can be specified to pick a specific face.
     #style: Regular
 
@@ -321,8 +321,8 @@ draw_bold_text_with_bright_colors: false
 #   - (macOS) /bin/bash --login
 #   - (Linux/BSD) user login shell
 #   - (Windows) powershell
-shell:
-  program: C:\Users\shcampbe\.cargo\bin\nu.exe
+# shell:
+#   program: C:\Users\shcampbe\.cargo\bin\nu.exe
 #  args:
 #    - --login
 
@@ -330,7 +330,7 @@ shell:
 #
 # Directory the shell is started in. If this is unset, or `None`, the working
 # directory of the parent process will be used.
-working_directory: C:/Users/shcampbe
+# working_directory: C:/Users/shcampbe
 
 # Send ESC (\x1b) before characters when alt is pressed.
 #alt_send_esc: true
