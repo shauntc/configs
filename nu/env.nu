@@ -32,5 +32,6 @@ let-env NU_PLUGIN_DIRS = [
 let-env HELIX_CONFIG = ($env.CONFIG_ROOT | path join "helix")
 let-env EDITOR = "hx"
 
-# TODO: Make this conditional
-let-env RUSTC_WRAPPER = (which sccache | get 0.path)
+let-env Path = if ((which yarn | do -i { get 0.path } | into string | str length) != 0) { ($env.Path | append (yarn global bin)) } else { $env.Path }
+
+let-env RUSTC_WRAPPER = if ((which sccache | do -i { get 0.path } | into string | str length) != 0) { (which sccache | get 0.path) } else { "" }

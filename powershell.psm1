@@ -7,7 +7,7 @@ if (-not (Test-Path $env:CONFIG_GENERATED)) {
 }
 
 Import-Module "$env:CONFIG_ROOT\powershell\sudo.psm1" -Global -ArgumentList $env:CONFIG_GENERATED
-Import-Module "$env:CONFIG_ROOT\powershell\init.psm1"
+# Import-Module "$env:CONFIG_ROOT\powershell\init.psm1"
 
 function commandExists($command) {
     return (Get-Command $command -errorAction SilentlyContinue)

@@ -1,5 +1,8 @@
 def "nu-complete git branches" [] {
-  ^git branch | lines | each { |line| $line | str replace '\* ' "" | str trim }
+  let user = (^git config --get user.name | split row '@' | get 0 | str trim)
+  let local = (^git branch | lines | str replace '\* ' "" | str trim)
+  let remote = (^git branch -r | lines | where { $in | str contains $user } | str replace 'remotes/[^/]+/' "" | str trim) 
+  $local | append $remote
 }
 
 def "nu-complete git remotes" [] {
