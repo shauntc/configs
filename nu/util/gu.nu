@@ -12,7 +12,7 @@ def commit_date [] { each { |branch| (git log $branch -n 1 --format=%ad) | str t
 export def "gu branches" [user = 'shcampbe'] {
     git branch -a |
         lines |
-        where -b { ($in | str contains $"users/($user)") || ($in | str contains $"user/($user)") } |
+        filter { ($in | str contains $"users/($user)") or ($in | str contains $"user/($user)") } |
         str replace '\*' '' |
         str trim |
         wrap 'branch' |
