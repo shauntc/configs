@@ -32,6 +32,18 @@ let-env NU_PLUGIN_DIRS = [
 let-env HELIX_CONFIG = ($env.CONFIG_ROOT | path join "helix")
 let-env EDITOR = "hx"
 
-let-env Path = if ((which yarn | do -i { get 0.path } | into string | str length) != 0) { ($env.Path | append (yarn global bin)) } else { $env.Path }
+def command_exists [name: string] {
+  ((which $name | do -i { get 0.path } | into string | str length) != 0)
+}
 
-let-env RUSTC_WRAPPER = if ((which sccache | do -i { get 0.path } | into string | str length) != 0) { (which sccache | get 0.path) } else { "" }
+let-env PATH = if (command_exists yarn) {
+  ($env.PATH | append (yarn global bin))
+} else {
+  $env.PATH
+}
+
+let-env RUSTC_WRAPPER = if (command_exists sccache) {
+  (which sccache | get 0.path)
+} else {
+  ""
+}
