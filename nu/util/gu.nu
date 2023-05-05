@@ -1,3 +1,4 @@
+# set upstream and push the current branch
 export def "gu push" [] {
     let branch = (git branch --show-current | str trim)
     let remote = (git remote | str trim)

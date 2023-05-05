@@ -33,17 +33,23 @@ let-env HELIX_CONFIG = ($env.CONFIG_ROOT | path join "helix")
 let-env EDITOR = "hx"
 
 def command_exists [name: string] {
-  ((which $name | do -i { get 0.path } | into string | str length) != 0)
+  which $name | is-empty | $in != true
 }
 
-let-env PATH = if (command_exists yarn) {
-  ($env.PATH | append (yarn global bin))
-} else {
-  $env.PATH
+if $nu.os-info.name == 'windows' {
+    let-env Path = if (command_exists yarn) {
+      ($env.Path | append (yarn global bin))
+    } else {
+      $env.Path
+    }
+  } else {
+    let-env PATH = if (command_exists yarn) {
+      ($env.PATH | append (yarn global bin))
+    } else {
+      $env.PATH
+    }
 }
 
-let-env RUSTC_WRAPPER = if (command_exists sccache) {
-  (which sccache | get 0.path)
-} else {
-  ""
+if (command_exists sccache) {
+  let-env RUSTC_WRAPPER = (which sccache | get 0.path)  
 }
