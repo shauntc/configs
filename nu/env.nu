@@ -4,12 +4,12 @@
 # Note: The conversions happen *after* config.nu is loaded
 let-env ENV_CONVERSIONS = {
   "PATH": {
-    from_string: { |s| $s | split row (char esep) }
-    to_string: { |v| $v | path expand | str collect (char esep) }
+    from_string: { |s| $s | split row (char esep) | path expand --no-symlink }
+    to_string: { |v| $v | path expand --no-symlink | str join (char esep) }
   }
   "Path": {
-    from_string: { |s| $s | split row (char esep) }
-    to_string: { |v| $v | path expand | str collect (char esep) }
+    from_string: { |s| $s | split row (char esep) | path expand --no-symlink }
+    to_string: { |v| $v | path expand --no-symlink | str join (char esep) }
   }
 }
 
@@ -33,7 +33,7 @@ let-env HELIX_CONFIG = ($env.CONFIG_ROOT | path join "helix")
 let-env EDITOR = "hx"
 
 def command_exists [name: string] {
-  which $name | is-empty | $in != true
+  which $name | is-empty | not $in
 }
 
 if $nu.os-info.name == 'windows' {

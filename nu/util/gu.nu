@@ -19,8 +19,8 @@ export def "gu branches" [user = 'shcampbe'] {
         wrap 'branch' |
         insert 'last commit' { $in.branch | commit_date } |
         sort-by 'last commit' -r |
-        update 'branch' { $in.branch | str replace 'remotes/[^/]+/' "" } |
+        update 'branch' { $in | str replace 'remotes/[^/]+/' "" } |
         group-by 'branch' |
         transpose branch 'last commit' |
-        update 'last commit' { $in.'last commit' | get 'last commit'.0 }
+        update 'last commit' { $in | get 0 }
 }
