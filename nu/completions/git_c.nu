@@ -195,3 +195,38 @@ export extern "git add" [
   --pathspec-from-file: string                    # read pathspec from file
   --pathspec-file-nul: string                     # with --pathspec-from-file, pathspec elements are separated with NUL character
 ]
+
+export extern "git branch" [
+  branch?: string@"nu-complete git branches"      # name of the target branch
+    -v, --verbose         # show hash and subject, give twice for upstream branch
+    -q, --quiet           # suppress informational messages
+    -t, --track: string   # [=(direct|inherit)] set branch tracking configuration
+    -u, --set-upstream-to: string # <upstream> change the upstream info
+    --unset-upstream      # unset the upstream info
+    --color: string       # [=<when>] use colored output
+    -r, --remotes         # act on remote-tracking branches
+    --contains: string    # <commit> print only branches that contain the commit
+    --no-contains: string # <commit> print only branches that don't contain the commit
+    --abbrev: int         # [=<n>]        use <n> digits to display object names
+    -a, --all             # list both remote-tracking and local branches
+    -d, --delete          #  delete fully merged branch
+    -D                    # delete branch (even if not merged)
+    -m, --move            # move/rename a branch and its reflog
+    -M                    # move/rename a branch, even if target exists
+    --omit-empty          # do not output a newline after empty formatted refs
+    -c, --copy            # copy a branch and its reflog
+    -C                    # copy a branch, even if target exists
+    -l, --list            # list branch names
+    --show-current        # show current branch name
+    --create-reflog       # create the branch's reflog
+    --edit-description    # edit the description for the branch
+    -f, --force           # force creation, move/rename, deletion
+    --merged: string      # <commit> print only branches that are merged
+    --no-merged: string   # <commit> print only branches that are not merged
+    --column: string      # [=<style>] list branches in columns
+    --sort: string        # <key> field name to sort on
+    --points-at: string   # <object> print only branches of the object
+    -i, --ignore-case     # sorting and filtering are case insensitive
+    --recurse-submodules  # recurse through submodules
+    --format: string      # <format> format to use for the output
+]

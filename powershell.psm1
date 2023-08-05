@@ -24,12 +24,8 @@ if (Test-Path($ChocolateyProfile)) {
 }
 
 # helix - editor setup
-if (commandExists hx) {
-    if (-not $env:HELIX_RUNTIME) {
-        Write-Host "Helix Editor runtime folder not set, please set 'HELIX_RUNTIME' env var"
-    }
-    $env:HELIX_CONFIG = "$env:CONFIG_ROOT\helix"
-    $env:EDITOR = "hx"
+if (commandExists nvim) {
+    $env:EDITOR = "nvim"
 }
 
 # starship - Command Prompt

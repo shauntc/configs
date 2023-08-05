@@ -52,7 +52,7 @@ let default_theme = {
 }
 
 # The default config record. This is where much of your global configuration is setup.
-let-env config = {
+$env.config = {
   color_config: $default_theme
   use_grid_icons: true
   footer_mode: "25" # always, never, number_of_rows, auto
@@ -97,7 +97,7 @@ let-env config = {
     metric: true # true => KB, MB, GB (ISO standard), false => KiB, MiB, GiB (Windows standard)
     format: "auto" # b, kb, kib, mb, mib, gb, gib, tb, tib, pb, pib, eb, eib, zb, zib, auto
   }
-  shell_integration: true # enables terminal markers and a workaround to arrow keys stop working issue
+  shell_integration: ("WEZTERM_PANE" not-in $env) # enables terminal markers and a workaround to arrow keys stop working issue
   cd: {
     abbreviations: false # set to true to allow you to do things like cd s/o/f and nushell expand it to cd some/other/folder
   }
