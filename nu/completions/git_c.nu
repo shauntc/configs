@@ -1,7 +1,7 @@
 def "nu-complete git branches" [] {
   let user = (^git config --get user.name | split row '@' | get 0 | str trim)
-  let local = (^git branch | lines | str replace '\* ' "" | str trim)
-  let remote = (^git branch -r | lines | where { $in | str contains $user } | str replace 'remotes/[^/]+/' "" | str trim) 
+  let local = (^git branch | lines | str replace '*' "" | str trim)
+  let remote = (^git branch -r | lines | where { $in | str contains $user } | str replace --regex 'remotes/[^/]+/' "" | str trim) 
   $local | append $remote
 }
 
@@ -142,7 +142,7 @@ export extern "git switch" [
 
 def "nu-complete git diff" [] {
   # TODO: this impl includes untracked files which don't need to be shown
-  git status --porcelain | lines | str replace '.[^s]? ' ''
+  git status --porcelain | lines | str replace --regex '.[^s]? ' ''
 }
 
 export extern "git diff" [
@@ -171,7 +171,7 @@ export extern "git diff" [
 ]
 
 def "nu-complete git add" [] {
-  git status --porcelain | lines | str replace '.[^s]? ' ''
+  git status --porcelain | lines | str replace --regex '.[^s]? ' ''
 }
 
 export extern "git add" [

@@ -14,7 +14,7 @@ export def "gu branches" [user = 'shcampbe'] {
     git branch -a |
         lines |
         filter { ($in | str contains $"users/($user)") or ($in | str contains $"user/($user)") } |
-        str replace '\*' '' |
+        str replace '*' '' |
         str trim |
         wrap 'branch' |
         insert 'last commit' { $in.branch | commit_date } |
